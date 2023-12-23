@@ -1,0 +1,41 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "ts-node-dev --respawn --transpile-only server.ts"
+  },
+  "author": "Mahadi",
+  "license": "ISC",
+  "dependencies": {
+    "@types/bcryptjs": "^2.4.5",
+    "@types/cookie-parser": "^1.4.5",
+    "@types/cors": "^2.8.15",
+    "@types/jsonwebtoken": "^9.0.4",
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^20.8.10",
+    "@types/node-cron": "^3.0.11",
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.41.0",
+    "colors": "^1.4.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "ioredis": "^5.3.2",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "node-cron": "^3.0.3",
+    "nodemailer": "^6.9.7",
+    "nodemon": "^3.0.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.2.2"
+  },
+  "devDependencies": {
+    "@types/ejs": "^3.1.5",
+    "@types/nodemailer": "^6.4.13"
+  }
+}
