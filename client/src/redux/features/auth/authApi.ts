@@ -1,6 +1,6 @@
 // Import necessary modules
 import { apiSlice } from "../api/apiSlice";
-import { userLoggedIn, userRegistration } from "./authSlice";
+import { userLoggedIn, userLoggedOut, userRegistration } from "./authSlice";
 
 // Define the shape of the response from the registration endpoint
 type RegistrationResponse = {
@@ -78,8 +78,59 @@ export const authApi = apiSlice.injectEndpoints({
         }
       },
     }),
+    socialAuth: builder.mutation({
+      query: ({ email, name, avatar }) => ({
+        url: "social-auth",
+        method: "POST",
+        body: {
+          email,
+          name,
+          avatar,
+        },
+        credentials: "include" as const,
+      }),
+      // Callback function triggered when the login query is started
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          // Await the completion of the registration query
+          const result = await queryFulfilled;
+
+          // Dispatch the user login action
+          dispatch(
+            userLoggedIn({
+              accessToken: result.data.activationToken,
+              user: result.data.user,
+            })
+          );
+        } catch (error: any) {
+          console.log("authApi Error:", error);
+        }
+      },
+    }),
+    logout: builder.query({
+      query: () => ({
+        url: "logout",
+        method: "GET",
+
+        credentials: "include" as const,
+      }),
+      // Callback function triggered when the login query is started
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          // Dispatch the user login action
+          dispatch(userLoggedOut());
+        } catch (error: any) {
+          console.log("authApi Error:", error);
+        }
+      },
+    }),
   }),
 });
 
-export const { useRegisterMutation, useActivationMutation, useLoginMutation } =
-  authApi;
+export const {
+  useRegisterMutation,
+  useActivationMutation,
+  useLoginMutation,
+  useSocialAuthMutation,
+  useLogoutQuery,
+} = authApi;

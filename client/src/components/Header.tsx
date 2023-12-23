@@ -3,7 +3,7 @@
 import NavItems from "@/utils/NavItems";
 import ThemeSwitcher from "@/utils/ThemeSwitcher";
 import Link from "next/link";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { TbMenuDeep } from "react-icons/tb";
 import { HiOutlineUserCircle } from "react-icons/hi";
 import CustomeModal from "@/utils/CustomeModal";
@@ -13,6 +13,12 @@ import Verification from "./Authentication/Verification";
 import { useSelector } from "react-redux";
 import Image from "next/image";
 import avatar from "../../public/avatar.png";
+import { useSession } from "next-auth/react";
+import {
+  useLogoutQuery,
+  useSocialAuthMutation,
+} from "@/redux/features/auth/authApi";
+import toast from "react-hot-toast";
 
 type Props = {
   open: boolean;
@@ -26,7 +32,34 @@ const Header: FC<Props> = ({ activeItem, setOpen, setRoute, open, route }) => {
   const [active, setActive] = useState(false);
   const [openSidebar, setOpenSidebar] = useState(false);
   const { user } = useSelector((state: any) => state.auth);
-  console.log(user);
+  // console.log(user);
+  const { data } = useSession();
+  // console.log(data);
+  const [logout, setLogout] = useState(false);
+  const {} = useLogoutQuery(undefined, {
+    skip: !logout ? true : false,
+  });
+
+  const [socialAuth, { isSuccess, error }] = useSocialAuthMutation();
+  useEffect(() => {
+    if (!user) {
+      if (data) {
+        socialAuth({
+          email: data?.user?.email,
+          name: data?.user?.name,
+          avatar: data?.user?.image,
+        });
+      }
+    }
+    if (data === null) {
+      if (isSuccess) {
+        toast.success("Login is Successful");
+      }
+    }
+    if (data === null) {
+      setLogout(true);
+    }
+  }, [data, user]);
 
   if (typeof window !== "undefined") {
     window.addEventListener("scroll", () => {

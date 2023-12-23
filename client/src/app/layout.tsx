@@ -7,6 +7,7 @@ import { Toaster } from "react-hot-toast";
 import { Providers } from "./Provider";
 import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
 import Loader from "@/components/Loader";
+import { SessionProvider } from "next-auth/react";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -30,10 +31,12 @@ export default function RootLayout({
         className={`${poppins.variable} ${josefin.variable} !bg-white dark:bg-gradient-to-b dark:from-gray-900 bg-no-repeat dark:to-black duration-300`}
       >
         <Providers>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <Custom> {children}</Custom>
-            <Toaster position="top-center" reverseOrder={false} />
-          </ThemeProvider>
+          <SessionProvider>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+              <Custom> {children}</Custom>
+              <Toaster position="top-center" reverseOrder={false} />
+            </ThemeProvider>
+          </SessionProvider>
         </Providers>
       </body>
     </html>
