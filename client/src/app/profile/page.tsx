@@ -12,12 +12,12 @@ const ProfilePage = (props: Props) => {
   const { user } = useSelector((state: any) => state.auth);
   const [open, setOpen] = useState(false);
   const [route, setRoute] = useState("Login");
-  const [activeItem, setActiveItem] = useState(0);
+  const [activeItem, setActiveItem] = useState(5);
   return (
     <div>
       <Protected>
         <Heading
-          title={`${user?.name} profile`}
+          title={`${user?.name} profile - Elearning`}
           description="Elearning is a platform for students to learn and get help from mentors"
           keywords="MERN & Nextjs"
         />

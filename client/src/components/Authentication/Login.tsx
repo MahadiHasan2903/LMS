@@ -11,6 +11,7 @@ import { styles } from "@/styles/style";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
 import toast from "react-hot-toast";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 type Props = {
   setRoute: (route: string) => void;
@@ -27,6 +28,7 @@ const schema = Yup.object().shape({
 
 const Login: FC<Props> = ({ setRoute, setOpen }) => {
   const [show, setShow] = useState(false);
+  const router = useRouter();
 
   const [login, { isSuccess, error, data }] = useLoginMutation();
 
@@ -41,6 +43,7 @@ const Login: FC<Props> = ({ setRoute, setOpen }) => {
 
   useEffect(() => {
     if (isSuccess) {
+      router.push("/profile");
       toast.success("Login Successfully");
       setOpen(false);
     }
